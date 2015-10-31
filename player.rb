@@ -21,14 +21,12 @@ class Player
       0
     elsif high_cards(hole_cards)
       10000
+    elsif me(game_state)['stack'].to_i < 333 and [*0..10].sample == 10
+      10000
+    elsif me(game_state)['stack'].to_i < 150
+      10000
     else
-      if game_state['bet_index'].to_i >= number_of_active_players
-        10000
-      elsif [*0..20].sample == 10
-        random_raise(game_state)
-      else
-        0
-      end
+      0
     end
   end
 
