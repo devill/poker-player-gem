@@ -1,7 +1,7 @@
 
 class Player
 
-  VERSION = "Conservative preflop"
+  VERSION = "Conservative preflop v2"
 
   def bet_request(game_state)
     hole_cards = game_state['players'][game_state['in_action']]['hole_cards']
@@ -31,7 +31,7 @@ class Player
   end
 
   def includes_rank?(hole_cards, rank)
-    hole_cards.count? { |card| card['rank'] == rank } > 0
+    hole_cards.count { |card| card['rank'] == rank } > 0
   end
 
   def high?(card)
