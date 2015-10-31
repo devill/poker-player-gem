@@ -1,14 +1,16 @@
 
 class Player
 
-  VERSION = "Loosen up a bit Call v2"
+  VERSION = "Bluff or tight"
 
   def bet_request(game_state)
     me = game_state['players'][game_state['in_action']]
     hole_cards = me['hole_cards']
     number_of_active_players = game_state['players'].count { |player| player['status'] != 'out' }
 
-    if (pocket_pairs?(hole_cards) and high_cards(hole_cards)) or suited_high?(hole_cards)
+    if game_state['pot'] < 200 and [1..20].to_a.sample
+      10000
+    elsif (pocket_pairs?(hole_cards) and high_cards(hole_cards)) or suited_high?(hole_cards)
       min_raise = game_state['current_buy_in'] - me['bet'] + game_state['minimum_raise']
       max_raise = [min_raise,me['stack']].max + 1
       [*min_raise..max_raise].sample
