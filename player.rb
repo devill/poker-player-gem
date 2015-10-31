@@ -12,7 +12,7 @@ class Player
       min_raise = game_state['current_buy_in'] - me['bet'] + game_state['minimum_raise']
       max_raise = [min_raise,me['stack']].max + 1
       [*min_raise..max_raise].sample
-    elsif pocket_pairs?(hole_cards)
+    elsif pocket_pairs?(hole_cards) and hole_cards[0]['rank'].to_i > 6
       game_state['current_buy_in'] - me['bet']
     elsif number_of_active_players > 2
       0
