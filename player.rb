@@ -1,14 +1,17 @@
 
 class Player
 
-  VERSION = "Loosen up a bit"
+  VERSION = "Loosen up a bit Call v2"
 
   def bet_request(game_state)
-    hole_cards = game_state['players'][game_state['in_action']]['hole_cards']
+    me = game_state['players'][game_state['in_action']]
+    hole_cards = me['hole_cards']
     number_of_active_players = game_state['players'].count { |player| player['status'] != 'out' }
 
     if (pocket_pairs?(hole_cards) and high_cards(hole_cards)) or suited_high?(hole_cards)
       10000
+    elsif pocket_pairs?(hole_cards)
+      game_state['current_buy_in'] - me['bet']
     elsif number_of_active_players > 2
       0
     elsif high_cards(hole_cards)
