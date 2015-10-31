@@ -10,9 +10,9 @@ class Player
     if high?(hole_cards[0]) and high?(hole_cards[1])
       10000
     elsif high?(hole_cards[0]) or high?(hole_cards[1])
-      200
+      1000
     elsif number_of_active_players < 3
-      200
+      1000
     else
       0
     end
