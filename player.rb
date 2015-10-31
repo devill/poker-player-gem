@@ -17,13 +17,13 @@ class Player
       end
     elsif pocket_pairs?(hole_cards) and hole_cards[0]['rank'].to_i > 6
       call(game_state)
-    elsif number_of_active_players > 2
-      shouldnt_leave(game_state) ? minimum_raise(game_state) : 0
-    elsif high_cards(hole_cards)
-      10000
     elsif me(game_state)['stack'].to_i < 333 and [*0..10].sample == 10
       10000
     elsif me(game_state)['stack'].to_i < 150
+      10000
+    elsif number_of_active_players > 2
+      shouldnt_leave(game_state) ? minimum_raise(game_state) : 0
+    elsif high_cards(hole_cards)
       10000
     else
       shouldnt_leave(game_state) ? minimum_raise(game_state) : 0
