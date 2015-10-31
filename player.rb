@@ -7,7 +7,7 @@ class Player
     hole_cards = game_state['players'][game_state['in_action']]['hole_cards']
     number_of_active_players = game_state['players'].count { |player| player['status'] != 'out' }
 
-    if pocket_aces?(hole_cards) or suited_high?(hole_cards)
+    if pocket_pairs?(hole_cards) or suited_high?(hole_cards)
       10000
     elsif number_of_active_players > 2
       0
@@ -20,6 +20,10 @@ class Player
 
   def pocket_aces?(hole_cards)
     hole_cards[0]['rank'] == 'A' and hole_cards[1]['rank'] == 'A'
+  end
+
+  def pocket_pairs?(hole_cards)
+    hole_cards[0]['rank'] == hole_cards[1]['rank']
   end
 
   def suited_high?(hole_cards)
