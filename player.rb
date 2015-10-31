@@ -9,7 +9,7 @@ class Player
     number_of_active_players = game_state['players'].count { |player| player['status'] != 'out' }
 
     if (pocket_pairs?(hole_cards) and high_cards(hole_cards)) or suited_high?(hole_cards)
-      10000
+      [game_state['current_buy_in'] - me['bet'] + game_state['minimum_raise'], (me['stack'] / 2).to_i].max
     elsif pocket_pairs?(hole_cards)
       game_state['current_buy_in'] - me['bet']
     elsif number_of_active_players > 2
