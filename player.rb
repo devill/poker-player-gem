@@ -1,21 +1,25 @@
 
 class Player
 
-  VERSION = "Conservative preflop v2"
+  VERSION = "Loosen up a bit"
 
   def bet_request(game_state)
     hole_cards = game_state['players'][game_state['in_action']]['hole_cards']
     number_of_active_players = game_state['players'].count { |player| player['status'] != 'out' }
 
-    if pocket_pairs?(hole_cards) or suited_high?(hole_cards)
+    if (pocket_pairs?(hole_cards) and high_cards(hole_cards)) or suited_high?(hole_cards)
       10000
     elsif number_of_active_players > 2
       0
-    elsif high?(hole_cards[0]) and high?(hole_cards[1])
+    elsif high_cards(hole_cards)
       10000
     else
       0
     end
+  end
+
+  def high_cards(hole_cards)
+    high?(hole_cards[0]) and high?(hole_cards[1])
   end
 
   def pocket_aces?(hole_cards)
