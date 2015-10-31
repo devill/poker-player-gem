@@ -1,15 +1,21 @@
 
 class Player
 
-  VERSION = "All in strategy"
+  VERSION = "High card strategy"
 
   def bet_request(game_state)
     hole_cards = game_state['players'][game_state['in_action']]['hole_cards']
-    if hole_cards[0]['rank'] == 'A' and hole_cards[1]['rank'] == 'A'
+    if high?(hole_cards[0]) and high?(hole_cards[1])
       10000
+    elsif high?(hole_cards[0]) or high?(hole_cards[1])
+      200
     else
-      1000
+      0
     end
+  end
+
+  def high?(card)
+    ['J','Q','K','A'].include? card['rank']
   end
 
   def showdown(game_state)
