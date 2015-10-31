@@ -1,7 +1,7 @@
 
 class Player
 
-  VERSION = "Tricky never leaver"
+  VERSION = "smarter stay in game strategy"
 
   def bet_request(game_state)
     hole_cards = me(game_state)['hole_cards']
@@ -18,7 +18,7 @@ class Player
     elsif pocket_pairs?(hole_cards) and hole_cards[0]['rank'].to_i > 6
       call(game_state)
     elsif number_of_active_players > 2
-      (game_state['current_buy_in'] < 100) ? minimum_raise(game_state) : 0
+      shouldnt_leave(game_state) ? minimum_raise(game_state) : 0
     elsif high_cards(hole_cards)
       10000
     elsif me(game_state)['stack'].to_i < 333 and [*0..10].sample == 10
@@ -26,8 +26,12 @@ class Player
     elsif me(game_state)['stack'].to_i < 150
       10000
     else
-      (game_state['current_buy_in'] < 100) ? minimum_raise(game_state) : 0
+      shouldnt_leave(game_state) ? minimum_raise(game_state) : 0
     end
+  end
+
+  def shouldnt_leave(game_state)
+    (game_state['current_buy_in'].to_i < game_state['small_blind'] * 5 and me(game_state)['bet'].to_i > 0)
   end
 
   def call(game_state)
