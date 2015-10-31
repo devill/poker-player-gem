@@ -1,10 +1,10 @@
 
 class Player
 
-  VERSION = "Default Ruby folding player"
+  VERSION = "All in strategy"
 
   def bet_request(game_state)
-    0
+    10000
   end
 
   def showdown(game_state)
