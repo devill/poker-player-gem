@@ -1,7 +1,7 @@
 
 class Player
 
-  VERSION = "Tricky"
+  VERSION = "Tricky never leaver"
 
   def bet_request(game_state)
     hole_cards = me(game_state)['hole_cards']
@@ -18,7 +18,7 @@ class Player
     elsif pocket_pairs?(hole_cards) and hole_cards[0]['rank'].to_i > 6
       call(game_state)
     elsif number_of_active_players > 2
-      (game_state['current_buy_in'] < 200) ? minimum_raise(game_state) : 0
+      (game_state['current_buy_in'] < 100) ? minimum_raise(game_state) : 0
     elsif high_cards(hole_cards)
       10000
     elsif me(game_state)['stack'].to_i < 333 and [*0..10].sample == 10
@@ -26,7 +26,7 @@ class Player
     elsif me(game_state)['stack'].to_i < 150
       10000
     else
-      (game_state['current_buy_in'] < 200) ? minimum_raise(game_state) : 0
+      (game_state['current_buy_in'] < 100) ? minimum_raise(game_state) : 0
     end
   end
 
