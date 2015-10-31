@@ -1,34 +1,50 @@
 
 class Player
 
-  VERSION = "Bluff or tight"
+  VERSION = "Tricky"
 
   def bet_request(game_state)
-    me = game_state['players'][game_state['in_action']]
-    hole_cards = me['hole_cards']
+    hole_cards = me(game_state)['hole_cards']
     number_of_active_players = game_state['players'].count { |player| player['status'] != 'out' }
 
-    if (pocket_pairs?(hole_cards) and high_cards(hole_cards)) or suited_high?(hole_cards)
-      random_raise(game_state, me)
+    if pocket_pairs?(hole_cards) and high_cards(hole_cards)
+      10000
+    elsif suited_high?(hole_cards)
+      if game_state['bet_index'].to_i >= number_of_active_players and game_state['pot'].to_i < 200
+        10000
+      else
+        call(game_state)
+      end
     elsif pocket_pairs?(hole_cards) and hole_cards[0]['rank'].to_i > 6
-      game_state['current_buy_in'] - me['bet']
+      call(game_state)
     elsif number_of_active_players > 2
       0
     elsif high_cards(hole_cards)
       10000
     else
-      if [*0..20].sample == 10
-        random_raise(game_state, me)
+      if game_state['bet_index'].to_i >= number_of_active_players
+        10000
+      elsif [*0..20].sample == 10
+        random_raise(game_state)
       else
         0
       end
     end
   end
 
-  def random_raise(game_state, me)
+  def call(game_state)
+    game_state['current_buy_in'] - me(game_state)['bet']
+  end
+
+  def me(game_state)
+    game_state['players'][game_state['in_action']]
+  end
+
+  def random_raise(game_state)
+    me = me(game_state)
     min_raise = game_state['current_buy_in'] - me['bet'] + game_state['minimum_raise']
     max_raise = [min_raise, me['stack']].max + 1
-    a = [*min_raise..max_raise].sample
+    [*min_raise..max_raise].sample
   end
 
   def high_cards(hole_cards)
