@@ -18,7 +18,7 @@ class Player
     elsif pocket_pairs?(hole_cards) and hole_cards[0]['rank'].to_i > 6
       call(game_state)
     elsif number_of_active_players > 2
-      0
+      (game_state['current_buy_in'] < 200) ? minimum_raise(game_state) : 0
     elsif high_cards(hole_cards)
       10000
     elsif me(game_state)['stack'].to_i < 333 and [*0..10].sample == 10
@@ -26,7 +26,7 @@ class Player
     elsif me(game_state)['stack'].to_i < 150
       10000
     else
-      0
+      (game_state['current_buy_in'] < 200) ? minimum_raise(game_state) : 0
     end
   end
 
@@ -39,10 +39,13 @@ class Player
   end
 
   def random_raise(game_state)
-    me = me(game_state)
-    min_raise = game_state['current_buy_in'] - me['bet'] + game_state['minimum_raise']
-    max_raise = [min_raise, me['stack']].max + 1
+    min_raise = minimum_raise(game_state)
+    max_raise = [min_raise, me(game_state)['stack']].max + 1
     [*min_raise..max_raise].sample
+  end
+
+  def minimum_raise(game_state)
+    game_state['current_buy_in'] - me(game_state)['bet'] + game_state['minimum_raise']
   end
 
   def high_cards(hole_cards)
