@@ -22,7 +22,7 @@ class Player
     hole_cards[0]['rank'] == 'A' and hole_cards[1]['rank'] == 'A'
   end
 
-  def suite_high?(hole_cards)
+  def suited_high?(hole_cards)
     includes_rank?(hole_cards, 'A') and includes_rank?(hole_cards, 'K') and suited?(hole_cards)
   end
 
