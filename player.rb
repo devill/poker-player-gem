@@ -8,12 +8,8 @@ class Player
     hole_cards = me['hole_cards']
     number_of_active_players = game_state['players'].count { |player| player['status'] != 'out' }
 
-    if game_state['pot'] < 200 and [1..20].to_a.sample
-      10000
-    elsif (pocket_pairs?(hole_cards) and high_cards(hole_cards)) or suited_high?(hole_cards)
-      min_raise = game_state['current_buy_in'] - me['bet'] + game_state['minimum_raise']
-      max_raise = [min_raise,me['stack']].max + 1
-      [*min_raise..max_raise].sample
+    if (pocket_pairs?(hole_cards) and high_cards(hole_cards)) or suited_high?(hole_cards)
+      random_raise(game_state, me)
     elsif pocket_pairs?(hole_cards) and hole_cards[0]['rank'].to_i > 6
       game_state['current_buy_in'] - me['bet']
     elsif number_of_active_players > 2
@@ -21,8 +17,18 @@ class Player
     elsif high_cards(hole_cards)
       10000
     else
-      0
+      if [*0..20].sample == 10
+        random_raise(game_state, me)
+      else
+        0
+      end
     end
+  end
+
+  def random_raise(game_state, me)
+    min_raise = game_state['current_buy_in'] - me['bet'] + game_state['minimum_raise']
+    max_raise = [min_raise, me['stack']].max + 1
+    a = [*min_raise..max_raise].sample
   end
 
   def high_cards(hole_cards)
