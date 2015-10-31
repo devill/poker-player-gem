@@ -1,7 +1,7 @@
 
 class Player
 
-  VERSION = "smarter stay in game strategy"
+  VERSION = "smarter stay in game strategy v2"
 
   def bet_request(game_state)
     hole_cards = me(game_state)['hole_cards']
@@ -31,7 +31,7 @@ class Player
   end
 
   def shouldnt_leave(game_state)
-    (game_state['current_buy_in'].to_i < game_state['small_blind'] * 5 and me(game_state)['bet'].to_i > 0)
+    (game_state['current_buy_in'].to_i < game_state['small_blind'] * 7 and me(game_state)['bet'].to_i > 0)
   end
 
   def call(game_state)
